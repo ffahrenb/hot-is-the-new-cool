@@ -2,7 +2,7 @@
 
 **The hottest place on Earth right now.**
 
-Live at **https://ffahrenb.github.io/hot-is-the-new-cool/**
+Live at **https://hotplace.fyi**
 
 A single static HTML page — no build step, no backend, no API key. It shows the
 current world temperature leader with its country flag and continent silhouette,

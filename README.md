@@ -12,7 +12,7 @@ seven runners-up, and a solar band explaining *why* that place is hottest right 
 
 - **[Open-Meteo](https://open-meteo.com)** (free, CORS-enabled, CC-BY 4.0).
   The page sends one batched GET to `api.open-meteo.com/v1/forecast` asking for
-  `current=temperature_2m` at **225 candidate sites** — heat-prone places in both
+  `current=temperature_2m` at **256 candidate sites** — heat-prone places in both
   hemispheres (Death Valley, the Lut, Mesopotamia, the Sahara, the Australian
   outback, …), so the page stays interesting in January as well as July.
 - Readings are **model analysis at each coordinate**, not raw station reports
@@ -34,7 +34,7 @@ seven runners-up, and a solar band explaining *why* that place is hottest right 
 
 ## How the ranking works
 
-- All 225 sites are ranked by current temperature; the maximum takes the title.
+- All 256 sites are ranked by current temperature; the maximum takes the title.
 - The runners-up list is thinned to **one entry per 500 km**
   (`distinctRegions`), so Death Valley's neighbours don't fill every row.
   Ranks are kept true, which is why numbers may skip (08, 10, 13 …) — itself a
@@ -51,7 +51,7 @@ Everything configurable sits at the top of the `<script>` in `index.html`:
 |---|---|---|
 | `POLL_MS` | 10 min | How often the page re-polls |
 | `SHOWN` | 7 | Runners-up listed |
-| `SITES` | 225 entries | `[name, ISO-3166 alpha-2, lat, lon]` candidates |
+| `SITES` | 256 entries | `[name, ISO-3166 alpha-2, lat, lon]` candidates |
 
 ## Deploying
 

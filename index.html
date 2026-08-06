@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hot is the new cool — the hottest place on Earth right now</title>
-<meta name="description" content="Live readout of the hottest place on Earth right now, polled across 225 heat-prone sites and refreshed every ten minutes.">
+<meta name="description" content="Live readout of the hottest place on Earth right now, polled across 256 heat-prone sites and refreshed every ten minutes.">
 <meta property="og:title" content="Hot is the new cool">
 <meta property="og:description" content="The hottest place on Earth, right now.">
 <meta property="og:type" content="website">
@@ -21,7 +21,7 @@
   DATA
     Temperatures come from the Open-Meteo current-conditions API
     (https://open-meteo.com — free, no key, CORS-enabled, CC-BY 4.0).
-    One GET request carries all 225 coordinates; the page takes the maximum.
+    One GET request carries all 256 coordinates; the page takes the maximum.
     Values are model analysis at each site, not raw WMO observations —
     typically within a degree or two of the official station reading.
 
@@ -325,7 +325,7 @@
 </main>
 
 <footer class="mono">
-  <span id="scope">225 sites</span>
+  <span id="scope">256 sites</span>
   <span id="stamp">awaiting first poll</span>
   <span>Data <a href="https://open-meteo.com" rel="noopener">Open-Meteo</a></span>
 </footer>
@@ -393,6 +393,10 @@ const SITES = [
   ["Turpan","CN",42.95,89.19],["Toksun","CN",42.79,88.65],["Hami","CN",42.83,93.51],
   ["Dunhuang","CN",40.14,94.66],
 
+  // Central Asia — Karakum and Kyzylkum
+  ["Repetek","TM",38.57,63.18],["Turkmenabat","TM",39.08,63.58],["Ashgabat","TM",37.95,58.38],
+  ["Termez","UZ",37.22,67.28],["Bukhara","UZ",39.77,64.42],["Turkestan","KZ",43.30,68.25],
+
   // North America
   ["Furnace Creek","US",36.46,-116.87],["Stovepipe Wells","US",36.60,-117.15],
   ["Badwater Basin","US",36.23,-116.77],["Needles","US",34.85,-114.61],["Blythe","US",33.61,-114.60],
@@ -405,7 +409,7 @@ const SITES = [
   ["Torreon","MX",25.54,-103.41],["Ciudad Juarez","MX",31.74,-106.49],["Culiacan","MX",24.80,-107.39],
   ["Monclova","MX",26.91,-101.42],
 
-  // Australia
+  // Oceania — Australia and New Zealand
   ["Marble Bar","AU",-21.18,119.75],["Onslow","AU",-21.64,115.11],["Roebourne","AU",-20.78,117.14],
   ["Port Hedland","AU",-20.31,118.62],["Learmonth","AU",-22.24,114.09],["Carnarvon","AU",-24.88,113.66],
   ["Mardie","AU",-21.19,115.98],["Wyndham","AU",-15.48,128.12],["Fitzroy Crossing","AU",-18.19,125.56],
@@ -413,6 +417,10 @@ const SITES = [
   ["Birdsville","AU",-25.90,139.35],["Moomba","AU",-28.10,140.20],["Bourke","AU",-30.09,145.94],
   ["Walgett","AU",-30.02,148.12],["Mildura","AU",-34.24,142.09],["Alice Springs","AU",-23.70,133.88],
   ["Tennant Creek","AU",-19.65,134.19],["Nullarbor","AU",-31.44,130.90],
+  ["Newman","AU",-23.36,119.73],["Paraburdoo","AU",-23.20,117.67],["Kununurra","AU",-15.77,128.74],
+  ["Rabbit Flat","AU",-20.18,130.01],["Camooweal","AU",-19.92,138.12],["Cloncurry","AU",-20.71,140.51],
+  ["Winton","AU",-22.39,143.04],["Eucla","AU",-31.68,128.89],["Tarcoola","AU",-30.71,134.58],
+  ["Menindee","AU",-32.39,142.42],["Alexandra","NZ",-45.25,169.39],["Rangiora","NZ",-43.30,172.59],
 
   // South America
   ["Rivadavia","AR",-24.18,-62.89],["Las Lomitas","AR",-24.71,-60.59],
@@ -432,9 +440,15 @@ const SITES = [
 
   // Southern Europe
   ["Seville","ES",37.39,-5.99],["Cordoba","ES",37.89,-4.78],["Montoro","ES",38.02,-4.38],
+  ["Ecija","ES",37.54,-5.08],["Xativa","ES",38.99,-0.52],
   ["Badajoz","ES",38.88,-6.97],["Murcia","ES",37.99,-1.13],["Catenanuova","IT",37.57,14.69],
-  ["Syracuse","IT",37.08,15.28],["Decimomannu","IT",39.35,8.98],["Athens","GR",37.98,23.73],
-  ["Larissa","GR",39.64,22.42],["Amareleja","PT",38.21,-7.23],["Evora","PT",38.57,-7.91]
+  ["Syracuse","IT",37.08,15.28],["Catania","IT",37.47,15.05],["Foggia","IT",41.46,15.55],
+  ["Decimomannu","IT",39.35,8.98],["Athens","GR",37.98,23.73],
+  ["Elefsina","GR",38.04,23.54],["Serres","GR",41.09,23.55],
+  ["Larissa","GR",39.64,22.42],["Amareleja","PT",38.21,-7.23],["Evora","PT",38.57,-7.91],
+  ["Beja","PT",38.02,-7.87],["Mora","PT",38.94,-8.16],
+  ["Verargues","FR",43.72,4.09],["Carpentras","FR",44.06,5.05],
+  ["Demir Kapija","MK",41.41,22.24],["Mostar","BA",43.34,17.81],["Nicosia","CY",35.17,33.36]
 ];
 
 const COUNTRY = {
@@ -473,7 +487,8 @@ const CONTINENT_OF = {
   IL:"AS",PS:"AS",TR:"AS",DZ:"AF",TN:"AF",LY:"AF",EG:"AF",NE:"AF",TD:"AF",ML:"AF",MR:"AF",
   SN:"AF",SD:"AF",BF:"AF",NG:"AF",DJ:"AF",ET:"AF",ER:"AF",SO:"AF",MA:"AF",EH:"AF",IN:"AS",
   TH:"AS",LA:"AS",MM:"AS",KH:"AS",CN:"AS",US:"NA",MX:"NA",AU:"OC",AR:"SA",PY:"SA",BO:"SA",
-  BR:"SA",ZA:"AF",NA:"AF",BW:"AF",ZW:"AF",MZ:"AF",ES:"EU",IT:"EU",GR:"EU",PT:"EU"
+  BR:"SA",ZA:"AF",NA:"AF",BW:"AF",ZW:"AF",MZ:"AF",ES:"EU",IT:"EU",GR:"EU",PT:"EU",
+  FR:"EU",MK:"EU",BA:"EU",CY:"AS",TM:"AS",UZ:"AS",KZ:"AS",NZ:"OC"
 };
 
 /* ══ helpers ═════════════════════════════════════════════════════════════ */

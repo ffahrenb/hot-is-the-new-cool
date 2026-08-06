@@ -35,10 +35,12 @@ seven runners-up, and a solar band explaining *why* that place is hottest right 
 ## How the ranking works
 
 - All 256 sites are ranked by current temperature; the maximum takes the title.
-- The runners-up list is thinned to **one entry per 500 km**
-  (`distinctRegions`), so Death Valley's neighbours don't fill every row.
-  Ranks are kept true, which is why numbers may skip (08, 10, 13 …) — itself a
-  signal that one basin is running the table.
+- The runners-up list shows **the hottest place of each region** — Europe,
+  Oceania, North America, South America, the Middle East, Asia, Africa —
+  except the region that already owns the hero slot, sorted hottest first.
+  (The Middle East isn't a continent, but here it competes as one: Gulf,
+  Levant, Turkey, Cyprus.) Ranks stay global, which is why the numbers jump —
+  Europe's champion might be #120 worldwide.
 - The band across the middle shows longitude 180 °W–180 °E shaded by solar hour
   angle, with a dashed line at the subsolar meridian and a red tick on the
   current leader — answering "why there" without a paragraph.
@@ -50,7 +52,6 @@ Everything configurable sits at the top of the `<script>` in `index.html`:
 | Knob | Default | Meaning |
 |---|---|---|
 | `POLL_MS` | 10 min | How often the page re-polls |
-| `SHOWN` | 7 | Runners-up listed |
 | `SITES` | 256 entries | `[name, ISO-3166 alpha-2, lat, lon]` candidates |
 
 ## Deploying

@@ -319,7 +319,7 @@
   </section>
 
   <section class="contenders">
-    <h2>Runners-up, best of each region</h2>
+    <h2>Runners-up, the hottest of every other region</h2>
     <div id="rows"></div>
   </section>
 </main>
@@ -333,7 +333,6 @@
 <script>
 /* ══ configuration ═══════════════════════════════════════════════════════ */
 const POLL_MS = 10 * 60 * 1000;   // re-poll every ten minutes
-const SHOWN   = 7;                // runners-up listed
 
 /* ══ candidate sites ═════════════════════════════════════════════════════
    Places that actually compete for the title, in both hemispheres so the
@@ -491,6 +490,11 @@ const CONTINENT_OF = {
   FR:"EU",MK:"EU",BA:"EU",CY:"AS",TM:"AS",UZ:"AS",KZ:"AS",NZ:"OC"
 };
 
+/* The Middle East is not a continent, but on this page it competes as one:
+   Gulf, Levant, Turkey, Cyprus. Everything else keeps its continent. */
+const MIDDLE_EAST = new Set(["KW","IQ","IR","AE","QA","SA","OM","BH","SY","JO","IL","PS","TR","CY"]);
+const regionOf = cc => MIDDLE_EAST.has(cc) ? "ME" : CONTINENT_OF[cc];
+
 /* ══ helpers ═════════════════════════════════════════════════════════════ */
 const $ = id => document.getElementById(id);
 const pad = (n,w=2) => String(Math.abs(Math.trunc(n))).padStart(w,"0");
@@ -542,21 +546,16 @@ function mixHex(a, b, t){
   return `rgb(${c(r1,r2)},${c(g1,g2)},${c(b1,b2)})`;
 }
 
-/* A single hot basin will happily fill the whole board with its own
-   neighbours, which tells you nothing. Keep only the best entry from each
-   region so the list reads as "where else is in contention". */
-function distinctRegions(list, want, minKm = 500){
-  const R = 6371, rad = Math.PI / 180;
-  const apart = (a, b) => {
-    const dLat = (b.lat - a.lat) * rad, dLon = (b.lon - a.lon) * rad;
-    const h = Math.sin(dLat / 2) ** 2
-            + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) ** 2;
-    return 2 * R * Math.asin(Math.min(1, Math.sqrt(h))) >= minKm;
-  };
-  const kept = [list[0]], out = [];
-  for (const s of list.slice(1)){
-    if (out.length >= want) break;
-    if (kept.every(k => apart(k, s))){ kept.push(s); out.push(s); }
+/* One row per region — the hottest entry of Europe, Oceania, the Americas,
+   the Middle East, Asia and Africa, skipping the region that already owns
+   the hero slot. The board arrives temp-sorted, so first hit per region
+   wins and the rows come out hottest-first by construction. */
+function hottestPerRegion(list, skipRegion){
+  const seen = new Set(), out = [];
+  for (const s of list){
+    const r = regionOf(s.cc);
+    if (r === skipRegion || seen.has(r)) continue;
+    seen.add(r); out.push(s);
   }
   return out;
 }
@@ -640,7 +639,7 @@ function render(){
   renderBulletin();
   renderBand();
 
-  const rows = distinctRegions(board, SHOWN).map(s => `
+  const rows = hottestPerRegion(board, regionOf(leader.cc)).map(s => `
     <div class="row">
       <span class="rank">${pad(s.rank)}</span>
       <span class="locus"><span class="flag">${flagOf(s.cc)}</span>${miniMap(s.cc, s.lat, s.lon, 46, 30, 6)}</span>

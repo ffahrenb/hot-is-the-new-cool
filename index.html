@@ -653,7 +653,7 @@ function render(){
 
   $("scope").textContent = `${board.length} sites polled`;
   $("stamp").textContent = "updated " + new Date(lastOK)
-    .toISOString().slice(11, 16) + " UTC";
+    .toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 }
 
 function clockAt(offsetSec){

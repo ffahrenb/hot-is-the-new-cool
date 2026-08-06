@@ -722,7 +722,8 @@ function setFeed(state){
 /* ══ chrome ══════════════════════════════════════════════════════════════ */
 function tickClock(){
   const d = new Date();
-  $("utc").textContent = `${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} UTC`;
+  $("utc").textContent = d.toLocaleTimeString([],
+    { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 }
 
 $("swap").addEventListener("click", () => {

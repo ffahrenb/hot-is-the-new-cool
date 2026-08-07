@@ -31,6 +31,10 @@ seven runners-up, and a solar band explaining *why* that place is hottest right 
 - When a backgrounded tab comes back to the foreground and the last successful
   poll is stale, it refreshes **immediately**.
 - Open-Meteo's underlying model analysis updates roughly every 15 minutes.
+- Failures degrade gracefully: the last good board is cached in localStorage
+  and shown (marked "cached") while retries back off 45 s → 90 s → 3 m → 6 m,
+  capped at the normal cadence. A rate-limited or offline visitor still sees
+  real data with an honest timestamp.
 
 ## How the ranking works
 

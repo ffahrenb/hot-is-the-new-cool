@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hot is the new cool — the hottest place on Earth right now</title>
-<meta name="description" content="Live readout of the hottest place on Earth right now, polled across 256 heat-prone sites and refreshed every ten minutes.">
+<meta name="description" content="Live readout of the hottest place on Earth right now, polled across 267 heat-prone sites and refreshed every ten minutes.">
 <meta property="og:title" content="Hot is the new cool">
 <meta property="og:description" content="The hottest place on Earth, right now.">
 <meta property="og:type" content="website">
@@ -21,7 +21,7 @@
   DATA
     Temperatures come from the Open-Meteo current-conditions API
     (https://open-meteo.com — free, no key, CORS-enabled, CC-BY 4.0).
-    One GET request carries all 256 coordinates; the page takes the maximum.
+    One GET request carries all 267 coordinates; the page takes the maximum.
     Values are model analysis at each site, not raw WMO observations —
     typically within a degree or two of the official station reading.
 
@@ -325,7 +325,7 @@
 </main>
 
 <footer class="mono">
-  <span id="scope">256 sites</span>
+  <span id="scope">267 sites</span>
   <span id="stamp">awaiting first poll</span>
   <span>Data <a href="https://open-meteo.com" rel="noopener">Open-Meteo</a></span>
 </footer>
@@ -447,7 +447,16 @@ const SITES = [
   ["Larissa","GR",39.64,22.42],["Amareleja","PT",38.21,-7.23],["Evora","PT",38.57,-7.91],
   ["Beja","PT",38.02,-7.87],["Mora","PT",38.94,-8.16],
   ["Verargues","FR",43.72,4.09],["Carpentras","FR",44.06,5.05],
-  ["Demir Kapija","MK",41.41,22.24],["Mostar","BA",43.34,17.81],["Nicosia","CY",35.17,33.36]
+  ["Demir Kapija","MK",41.41,22.24],["Mostar","BA",43.34,17.81],["Nicosia","CY",35.17,33.36],
+
+  // Insurance — occasional spikers outside the classic basins, so a freak
+  // heat dome (Lytton 2021: 49.6 °C at 50°N) doesn't happen off-list
+  ["Shahdad","IR",30.42,57.71],
+  ["Lytton","CA",50.23,-121.58],["Redding","US",40.59,-122.39],
+  ["Fresno","US",36.75,-119.77],["Wichita Falls","US",33.91,-98.49],
+  ["Fergana","UZ",40.39,71.78],["Chongqing","CN",29.56,106.55],
+  ["Tuong Duong","VN",19.28,104.43],["Agadir","MA",30.42,-9.60],
+  ["San Fernando de Apure","VE",7.88,-67.47],["Kairouan","TN",35.68,10.10]
 ];
 
 const COUNTRY = {
@@ -460,7 +469,9 @@ const COUNTRY = {
   KH:"Cambodia",CN:"China",US:"United States",MX:"Mexico",AU:"Australia",
   AR:"Argentina",PY:"Paraguay",BO:"Bolivia",BR:"Brazil",ZA:"South Africa",
   NA:"Namibia",BW:"Botswana",ZW:"Zimbabwe",MZ:"Mozambique",ES:"Spain",IT:"Italy",
-  GR:"Greece",PT:"Portugal"
+  GR:"Greece",PT:"Portugal",FR:"France",MK:"North Macedonia",BA:"Bosnia and Herzegovina",
+  CY:"Cyprus",TM:"Turkmenistan",UZ:"Uzbekistan",KZ:"Kazakhstan",NZ:"New Zealand",
+  CA:"Canada",VN:"Vietnam",VE:"Venezuela"
 };
 
 /* Continent silhouettes, dissolved and simplified from Natural Earth 110m
@@ -487,7 +498,8 @@ const CONTINENT_OF = {
   SN:"AF",SD:"AF",BF:"AF",NG:"AF",DJ:"AF",ET:"AF",ER:"AF",SO:"AF",MA:"AF",EH:"AF",IN:"AS",
   TH:"AS",LA:"AS",MM:"AS",KH:"AS",CN:"AS",US:"NA",MX:"NA",AU:"OC",AR:"SA",PY:"SA",BO:"SA",
   BR:"SA",ZA:"AF",NA:"AF",BW:"AF",ZW:"AF",MZ:"AF",ES:"EU",IT:"EU",GR:"EU",PT:"EU",
-  FR:"EU",MK:"EU",BA:"EU",CY:"AS",TM:"AS",UZ:"AS",KZ:"AS",NZ:"OC"
+  FR:"EU",MK:"EU",BA:"EU",CY:"AS",TM:"AS",UZ:"AS",KZ:"AS",NZ:"OC",
+  CA:"NA",VN:"AS",VE:"SA"
 };
 
 /* The Middle East is not a continent, but on this page it competes as one:

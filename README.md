@@ -12,7 +12,7 @@ seven runners-up, and a solar band explaining *why* that place is hottest right 
 
 - **[Open-Meteo](https://open-meteo.com)** (free, CORS-enabled, CC-BY 4.0).
   The page sends one batched GET to `api.open-meteo.com/v1/forecast` asking for
-  `current=temperature_2m` at **256 candidate sites** — heat-prone places in both
+  `current=temperature_2m` at **267 candidate sites** — heat-prone places in both
   hemispheres (Death Valley, the Lut, Mesopotamia, the Sahara, the Australian
   outback, …), so the page stays interesting in January as well as July.
 - Readings are **model analysis at each coordinate**, not raw station reports
@@ -38,7 +38,7 @@ seven runners-up, and a solar band explaining *why* that place is hottest right 
 
 ## How the ranking works
 
-- All 256 sites are ranked by current temperature; the maximum takes the title.
+- All 267 sites are ranked by current temperature; the maximum takes the title.
 - The runners-up list shows **the hottest place of each region** — Europe,
   Oceania, North America, South America, the Middle East, Asia, Africa —
   except the region that already owns the hero slot, sorted hottest first.
@@ -56,7 +56,7 @@ Everything configurable sits at the top of the `<script>` in `index.html`:
 | Knob | Default | Meaning |
 |---|---|---|
 | `POLL_MS` | 10 min | How often the page re-polls |
-| `SITES` | 256 entries | `[name, ISO-3166 alpha-2, lat, lon]` candidates |
+| `SITES` | 267 entries | `[name, ISO-3166 alpha-2, lat, lon]` candidates |
 
 ## Deploying
 
